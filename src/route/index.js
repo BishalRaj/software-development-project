@@ -1,8 +1,8 @@
 import React from "react";
-import { Route } from "react-router";
+import { Route } from "react-router-dom";
 import LoginPage from "../pages/login";
-const Routes = () => {
+const Index = () => {
   return <Route exact path="/" title={"Login Page"} element={<LoginPage />} />;
 };
 
-export default Routes;
+export default Index;

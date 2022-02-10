@@ -1,13 +1,12 @@
 import { Fragment } from "react";
-import "./App.css";
-import { BrowserRouter, Routes } from "react-router-dom";
-import Route from "./route";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import LoginPage from "./pages/login";
 function App() {
   return (
     <BrowserRouter>
       <Fragment>
         <Routes>
-          <Route />
+          <Route exact path="/" title={"Login Page"} element={<LoginPage />} />
         </Routes>
       </Fragment>
     </BrowserRouter>
@@ -15,5 +14,3 @@ function App() {
 }
 
 export default App;
-
-// Added new collaborator 
