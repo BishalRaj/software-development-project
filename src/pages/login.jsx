@@ -13,7 +13,8 @@ import {
   Divider,
   IconButton,
   InputAdornment,
-  OutlinedInput,
+  FilledInput,
+
 } from "@mui/material";
 import { Box } from "@mui/system";
 import React, { useState } from "react";
@@ -60,7 +61,7 @@ const Login = () => {
         <Grid container>
           <Grid xs={4} md={4} lg={4} className=" d-flex justify-content-start">
             <Button
-              variant="outlined"
+              variant="filled"
               className="py-2"
               sx={{ borderColor: "#D5DADF", width: "95%" }}
             >
@@ -69,7 +70,7 @@ const Login = () => {
           </Grid>
           <Grid xs={4} md={4} lg={4} className=" d-flex justify-content-center">
             <Button
-              variant="outlined"
+              variant="filled"
               className="py-2"
               sx={{
                 borderColor: "#D5DADF",
@@ -82,7 +83,7 @@ const Login = () => {
           </Grid>
           <Grid xs={4} md={4} lg={4} className=" d-flex justify-content-end">
             <Button
-              variant="outlined"
+              variant="filled"
               className="py-2"
               sx={{
                 borderColor: "#D5DADF",
@@ -99,18 +100,18 @@ const Login = () => {
         OR
       </Divider>
       <TextField
-        id="outlined-basic"
+        id="filled-basic"
         label="Email"
-        variant="outlined"
+        variant="filled"
         type="email"
         sx={{ width: "100%" }}
         {...register("email", { required: true })}
       />
 
-      <FormControl sx={{ width: "100%" }} variant="outlined">
-        <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
-        <OutlinedInput
-          id="outlined-adornment-password"
+      <FormControl sx={{ width: "100%" }} variant="filled">
+        <InputLabel htmlFor="filled-adornment-password">Password</InputLabel>
+        <FilledInput
+          id="filled-adornment-password"
           type={showPassword ? "text" : "password"}
           {...register("password", { required: true })}
           endAdornment={

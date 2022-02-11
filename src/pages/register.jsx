@@ -13,7 +13,7 @@ import {
   Divider,
   IconButton,
   InputAdornment,
-  OutlinedInput,
+  FilledInput,
 } from "@mui/material";
 import { Box } from "@mui/system";
 import React, { useState } from "react";
@@ -55,18 +55,24 @@ const Register = () => {
       </Typography>
 
       <TextField
-        id="outlined-basic"
+        id="filled-basic"
         label="Email"
-        variant="outlined"
+        variant="filled"
         type="email"
         sx={{ width: "100%" }}
         {...register("email", { required: true })}
       />
 
-      <FormControl sx={{ width: "100%" }} variant="outlined">
-        <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
-        <OutlinedInput
-          id="outlined-adornment-password"
+
+      
+
+
+      
+
+      <FormControl sx={{ width: "100%" }} variant="filled">
+        <InputLabel htmlFor="filled-adornment-password">Password</InputLabel>
+        <FilledInput
+          id="filled-adornment-password"
           type={showPassword ? "text" : "password"}
           {...register("password", { required: true })}
           endAdornment={
@@ -84,12 +90,12 @@ const Register = () => {
           label="Password"
         />
       </FormControl>
-      <FormControl sx={{ width: "100%" }} variant="outlined">
-        <InputLabel htmlFor="outlined-adornment-password">
+      <FormControl sx={{ width: "100%" }} variant="filled">
+        <InputLabel htmlFor="filled-adornment-password">
           Re-Password
         </InputLabel>
-        <OutlinedInput
-          id="outlined-adornment-password"
+        <FilledInput
+          id="filled-adornment-password"
           type={showPassword ? "text" : "password"}
           {...register("password", { required: true })}
           endAdornment={
