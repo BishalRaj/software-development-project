@@ -8,7 +8,6 @@ import {
 const Homepage = () => {
   const [markers, setMarkers] = useState([]);
   const [selected, setSelected] = useState([]);
-
   const libraries = ["places"];
   const mapContainerStyle = {
     width: "100vw",
