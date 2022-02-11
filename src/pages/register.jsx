@@ -1,187 +1,170 @@
-import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
-import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import { Stack, Typography } from "@mui/material";
-import IconButton from "@mui/material/IconButton";
+import {
+  FormControl,
+  InputLabel,
+  Link,
+  Grid,
+  Typography,
+  TextField,
+  Stack,
+  FormGroup,
+  FormControlLabel,
+  Checkbox,
+  Button,
+  Divider,
+  IconButton,
+  InputAdornment,
+  OutlinedInput,
+} from "@mui/material";
 import { Box } from "@mui/system";
 import React, { useState } from "react";
-import Personal from "../components/auth-multistep/personal";
-import Resume from "../components/auth-multistep/resume";
-import Skills from "../components/auth-multistep/skills";
-import Social from "../components/auth-multistep/social";
+import { useForm } from "react-hook-form";
 import AuthLayout from "../layout/authLayout";
+import { FcGoogle } from "react-icons/fc";
+import { CgFacebook } from "react-icons/cg";
+import { BsGithub } from "react-icons/bs";
 import { color, image } from "../static";
-
+import { MdVisibility, MdVisibilityOff } from "react-icons/md";
 const Register = () => {
-  const [counter, setcounter] = useState(1);
-  const [skill, setskill] = useState([]);
-  const [resume, setresume] = useState([]);
-  const [data, setdata] = useState([]);
-  const handleSkill = (data) => {
-    setskill((x) => [...x, data]);
-  };
-  const handleResume = (data) => {
-    setresume((x) => [...x, data]);
-  };
-  const handleRemoveSkill = (x) => {
-    let filteredData = skill.filter((item) => item.id !== x);
-    setskill(filteredData);
-  };
-  const handleRemoveResume = (x) => {
-    let filteredData = resume.filter((item) => item.id !== x);
-    setresume(filteredData);
-  };
-  const handleChange = (e) => {
-    setdata({ ...data, [e.target.name]: e.target.value });
-  };
-  const handleSubmit = () => {
-    console.log("====================================");
-    console.log({ skill, resume, data });
-    console.log("====================================");
-  };
-  const registerComponents = [
-    {
-      text: "Your Personal Details",
-      item: <Personal handleChange={handleChange} data={data} />,
+  const formWidth = {
+    width: "50%",
+    "@media (max-width: 426px)": {
+      width: "80%",
     },
-    {
-      text: "Academic / Work Details",
-      item: (
-        <Resume
-          data={resume}
-          handleResume={handleResume}
-          handleRemoveResume={handleRemoveResume}
+  };
+  const { register, handleSubmit } = useForm();
+  const handleLogin = (data) => {
+    alert(`email: ${data.email}  pwd: ${data.password} `);
+  };
+
+  const [showPassword, setShowPassword] = useState(false);
+  const handleClickShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
+  const formComponent = (
+    <Stack
+      spacing={2}
+      sx={formWidth}
+      component="form"
+      onSubmit={handleSubmit(handleLogin)}
+    >
+      <Typography variant="h5" component="div" sx={{ fontWeight: 700 }}>
+        Sign up to CVac
+      </Typography>
+
+      <TextField
+        id="outlined-basic"
+        label="Email"
+        variant="outlined"
+        type="email"
+        sx={{ width: "100%" }}
+        {...register("email", { required: true })}
+      />
+
+      <FormControl sx={{ width: "100%" }} variant="outlined">
+        <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+        <OutlinedInput
+          id="outlined-adornment-password"
+          type={showPassword ? "text" : "password"}
+          {...register("password", { required: true })}
+          endAdornment={
+            <InputAdornment position="end">
+              <IconButton
+                aria-label="toggle password visibility"
+                onClick={handleClickShowPassword}
+                onMouseDown={handleMouseDownPassword}
+                edge="end"
+              >
+                {showPassword ? <MdVisibility /> : <MdVisibilityOff />}
+              </IconButton>
+            </InputAdornment>
+          }
+          label="Password"
         />
-      ),
-    },
-    {
-      text: "Mention Your Skills",
-      item: (
-        <Skills
-          handleSkill={handleSkill}
-          data={skill}
-          handleRemoveSkill={handleRemoveSkill}
+      </FormControl>
+      <FormControl sx={{ width: "100%" }} variant="outlined">
+        <InputLabel htmlFor="outlined-adornment-password">
+          Re-Password
+        </InputLabel>
+        <OutlinedInput
+          id="outlined-adornment-password"
+          type={showPassword ? "text" : "password"}
+          {...register("password", { required: true })}
+          endAdornment={
+            <InputAdornment position="end">
+              <IconButton
+                aria-label="toggle password visibility"
+                onClick={handleClickShowPassword}
+                onMouseDown={handleMouseDownPassword}
+                edge="end"
+              >
+                {showPassword ? <MdVisibility /> : <MdVisibilityOff />}
+              </IconButton>
+            </InputAdornment>
+          }
+          label="Password"
         />
-      ),
-    },
-    {
-      text: "Social Details",
-      item: (
-        <Social
-          handleChange={handleChange}
-          handleSubmit={handleSubmit}
-          data={data}
-        />
-      ),
-    },
-  ];
-  counter < 1 && setcounter(1);
-  counter > registerComponents.length && setcounter(registerComponents.length);
-  const centerItems = {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-  };
-  const circularArrow = {
-    height: 50,
-    width: 50,
-    borderRadius: "100%",
-    backgroundColor: color.default,
-    color: "white",
-    ...centerItems,
-    "&:hover": {
-      backgroundColor: color.hoverDefault,
-    },
-  };
+      </FormControl>
 
-  const returnComponent = (
-    <>
-      <Box
-        sx={{
-          height: "600px",
-          width: "100%",
-          // backgroundColor: "blue",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <Box
-          sx={{
-            width: "10%",
-            ...centerItems,
-          }}
-        >
-          <IconButton
-            sx={{
-              ...circularArrow,
-            }}
-            className="shadow-lg"
-            onClick={() => setcounter(counter - 1)}
-            hidden={counter === 1 ? true : false}
-          >
-            <ArrowBackIosNewIcon color="white" />
-          </IconButton>
-        </Box>
-
-        <Box
-          // component="form"
-          sx={{
-            height: "100%",
-            width: "80%",
-            // backgroundColor: "red",
-            ...centerItems,
-          }}
-        >
-          <Stack sx={{ width: "60%", height: "100%" }}>
-            {registerComponents.map(
-              (component, key) =>
-                counter === key + 1 && (
-                  <>
-                    <Typography
-                      variant="h5"
-                      sx={{ height: "20% !important", ...centerItems }}
-                    >
-                      {component.text}
-                    </Typography>
-
-                    <Box sx={{ height: "80% !important", ...centerItems }}>
-                      {component.item}
-                    </Box>
-                  </>
-                )
-            )}
-          </Stack>
-        </Box>
-
-        <Box sx={{ width: "10%", ...centerItems }}>
-          <IconButton
-            sx={{
-              ...circularArrow,
-            }}
-            className="shadow-lg"
-            onClick={() => setcounter(counter + 1)}
-            hidden={registerComponents.length === counter ? true : false}
-          >
-            <ArrowForwardIosIcon color="white" />
-          </IconButton>
-        </Box>
+      <Box container>
+        <Grid container>
+          <Grid md={6}>
+            <FormGroup>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    defaultChecked
+                    sx={{ color: `${color.default} !important` }}
+                  />
+                }
+                label={<Typography variant="caption">Remember me</Typography>}
+              ></FormControlLabel>
+            </FormGroup>
+          </Grid>
+          <Grid md={6}>
+            <Typography
+              variant="caption"
+              align="right"
+              className="h-100 d-flex align-items-center justify-content-end"
+            >
+              <Link
+                href="/register"
+                underline="none"
+                color={color.default}
+                fontWeight="bold"
+              >
+                Already have an account?
+              </Link>
+            </Typography>
+          </Grid>
+        </Grid>
       </Box>
-    </>
+
+      <Button
+        variant="contained"
+        sx={{ textTransform: "none", backgroundColor: color.default }}
+        className="py-2"
+        type="submit"
+      >
+        <Typography>Register</Typography>
+      </Button>
+    </Stack>
   );
+
   const redirectComponent = {
-    text: "Already have an account?",
-    redirectText: "Login",
-    link: "/",
+    text: "Don't have an account?",
+    redirectText: "Get started",
+    link: "/register",
   };
   return (
-    <>
-      <AuthLayout
-        formComponent={returnComponent}
-        authCardText={"Manage your portfolio more effectively"}
-        authCardImg={image.register}
-        redirectComponent={redirectComponent}
-      />
-    </>
+    <AuthLayout
+      formComponent={formComponent}
+      redirectComponent={redirectComponent}
+      authCardText={"Hi, Welcome back"}
+      authCardImg={image.login}
+    />
   );
 };
 
