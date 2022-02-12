@@ -5,7 +5,11 @@ import {
   useLoadScript,
   InfoWindow,
 } from "@react-google-maps/api";
+
+
 const Homepage = () => {
+
+  
   const [markers, setMarkers] = useState([]);
   const [selected, setSelected] = useState([]);
   const libraries = ["places"];
@@ -40,12 +44,14 @@ const Homepage = () => {
   };
 
   const { isLoaded, loadError } = useLoadScript({
-    googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
+    googleMapsApiKey: "AIzaSyB00OdR-qnJVFJCJaWT9P__O30_V6eGb8g",
     libraries,
   });
 
   if (loadError) return "Error loading maps";
   if (!isLoaded) return "Loading maps";
+
+
 
   return (
     <div>
