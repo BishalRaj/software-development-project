@@ -1,24 +1,19 @@
 import {
-  FormControl,
-  InputLabel,
-  Link,
-  Grid,
-  Typography,
-  TextField,
-  Stack,
   Button,
-  IconButton,
-  InputAdornment,
-  FilledInput,
   Divider,
+  Grid,
+  Link,
+  Stack,
+  TextField,
+  Typography,
 } from "@mui/material";
 import { Box } from "@mui/system";
-import React, { useState } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
+import GoogleLoginComponent from "../components/google/login";
 import AuthLayout from "../layout/authLayout";
 import { color, image } from "../static";
-import { MdVisibility, MdVisibilityOff } from "react-icons/md";
-import GoogleLoginComponent from "../components/google/login";
+import { registerApi } from "../api";
 
 const Register = () => {
   const formWidth = {
@@ -31,14 +26,11 @@ const Register = () => {
     watch,
     register,
     formState: { errors },
+    handleSubmit,
   } = useForm({ mode: "all" });
 
-  const [showPassword, setShowPassword] = useState(false);
-  const handleClickShowPassword = () => {
-    setShowPassword(!showPassword);
-  };
-  const handleMouseDownPassword = (event) => {
-    event.preventDefault();
+  const handleRegister = (data) => {
+    registerApi(data);
   };
 
   const errorStyles = {
@@ -47,7 +39,12 @@ const Register = () => {
     fontSize: "12px",
   };
   const formComponent = (
-    <Stack spacing={2} sx={formWidth} component="form">
+    <Stack
+      spacing={2}
+      sx={formWidth}
+      component="form"
+      onSubmit={handleSubmit(handleRegister)}
+    >
       <GoogleLoginComponent />
 
       <Divider flexItem className="py-1" sx={{ color: "#808080" }}>
@@ -55,7 +52,7 @@ const Register = () => {
       </Divider>
 
       <Typography variant="h5" component="div" sx={{ fontWeight: 700 }}>
-        Sign up to CovVac
+        Sign up to CoVac
       </Typography>
 
       <span style={errorStyles}>{errors.fname && errors.fname.message}</span>
@@ -106,51 +103,23 @@ const Register = () => {
         {...register("phonenumber", { required: true })}
       />
 
-      <FormControl sx={{ width: "100%" }} variant="filled">
-        <InputLabel htmlFor="filled-adornment-password">Password</InputLabel>
-        <FilledInput
-          className="filled-adornment-password"
-          type={showPassword ? "text" : "password"}
-          {...register("password", { required: true })}
-          endAdornment={
-            <InputAdornment position="end">
-              <IconButton
-                aria-label="toggle password visibility"
-                onClick={handleClickShowPassword}
-                onMouseDown={handleMouseDownPassword}
-                edge="end"
-              >
-                {showPassword ? <MdVisibility /> : <MdVisibilityOff />}
-              </IconButton>
-            </InputAdornment>
-          }
-          label="Password"
-        />
-      </FormControl>
+      <TextField
+        className="filled-basic"
+        label="Password"
+        variant="filled"
+        type="password"
+        sx={{ width: "100%" }}
+        {...register("password", { required: true })}
+      />
 
-      <FormControl sx={{ width: "100%" }} variant="filled">
-        <InputLabel htmlFor="filled-adornment-password">
-          Confirm Password
-        </InputLabel>
-        <FilledInput
-          className="filled-adornment-password"
-          type={showPassword ? "text" : "password"}
-          {...register("cpassword", { required: true })}
-          endAdornment={
-            <InputAdornment position="end">
-              <IconButton
-                aria-label="toggle password visibility"
-                onClick={handleClickShowPassword}
-                onMouseDown={handleMouseDownPassword}
-                edge="end"
-              >
-                {showPassword ? <MdVisibility /> : <MdVisibilityOff />}
-              </IconButton>
-            </InputAdornment>
-          }
-          label="Cpassword"
-        />
-      </FormControl>
+      <TextField
+        className="filled-basic"
+        label="Confirm Password"
+        variant="filled"
+        type="password"
+        sx={{ width: "100%" }}
+        {...register("cpassword", { required: true })}
+      />
 
       <Box container>
         <Grid container>

@@ -22,6 +22,7 @@ import AuthLayout from "../layout/authLayout";
 import { color, image } from "../static";
 import { MdVisibility, MdVisibilityOff } from "react-icons/md";
 import GoogleLoginComponent from "../components/google/login";
+import { loginApi } from "../api";
 const Login = () => {
   const formWidth = {
     width: "50%",
@@ -30,8 +31,12 @@ const Login = () => {
     },
   };
   const { register, handleSubmit } = useForm();
-  const handleLogin = (data) => {
-    alert(`email: ${data.email}  pwd: ${data.password} `);
+  const handleLogin = async (data) => {
+    // alert(`email: ${data.email}  pwd: ${data.password} `);
+    let response = await loginApi(data);
+    console.log("====================================");
+    console.log(response);
+    console.log("====================================");
   };
 
   const [showPassword, setShowPassword] = useState(false);
