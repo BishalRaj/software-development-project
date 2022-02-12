@@ -10,6 +10,7 @@ import {
   IconButton,
   InputAdornment,
   FilledInput,
+  Divider,
 } from "@mui/material";
 import { Box } from "@mui/system";
 import React, { useState } from "react";
@@ -17,7 +18,7 @@ import { useForm } from "react-hook-form";
 import AuthLayout from "../layout/authLayout";
 import { color, image } from "../static";
 import { MdVisibility, MdVisibilityOff } from "react-icons/md";
-
+import GoogleLoginComponent from "../components/google/login";
 
 const Register = () => {
   const formWidth = {
@@ -29,8 +30,8 @@ const Register = () => {
   const {
     watch,
     register,
-    formState: { errors } } = useForm({ mode: "all" });
-
+    formState: { errors },
+  } = useForm({ mode: "all" });
 
   const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => {
@@ -41,24 +42,23 @@ const Register = () => {
   };
 
   const errorStyles = {
-    color: 'red',
-    fontStyle: 'italic',
-    fontSize: '12px'
-  }
+    color: "red",
+    fontStyle: "italic",
+    fontSize: "12px",
+  };
   const formComponent = (
-    <Stack
-      spacing={2}
-      sx={formWidth}
-      component="form"
-    >
+    <Stack spacing={2} sx={formWidth} component="form">
+      <GoogleLoginComponent />
+
+      <Divider flexItem className="py-1" sx={{ color: "#808080" }}>
+        OR
+      </Divider>
+
       <Typography variant="h5" component="div" sx={{ fontWeight: 700 }}>
         Sign up to CovVac
       </Typography>
 
-
-      <span style={errorStyles}>
-        {errors.fname && errors.fname.message}
-      </span>
+      <span style={errorStyles}>{errors.fname && errors.fname.message}</span>
 
       <TextField
         className="filled-basic"
@@ -70,17 +70,14 @@ const Register = () => {
         {...register("fname", {
           required: {
             value: true,
-            message: 'Please enter a name'
+            message: "Please enter a name",
           },
           pattern: {
             value: /([A-Z][a-zA-Z]*)/,
-            message: 'Please enter a valid name'
-          }
-
+            message: "Please enter a valid name",
+          },
         })}
       />
-
-
 
       <TextField
         className="filled-basic"
@@ -89,7 +86,6 @@ const Register = () => {
         type="name"
         sx={{ width: "100%" }}
         {...register("lname", { required: true })}
-
       />
 
       <TextField
@@ -126,13 +122,11 @@ const Register = () => {
               >
                 {showPassword ? <MdVisibility /> : <MdVisibilityOff />}
               </IconButton>
-
             </InputAdornment>
           }
           label="Password"
         />
       </FormControl>
-
 
       <FormControl sx={{ width: "100%" }} variant="filled">
         <InputLabel htmlFor="filled-adornment-password">
@@ -160,7 +154,6 @@ const Register = () => {
 
       <Box container>
         <Grid container>
-
           <Grid>
             <Typography
               variant="caption"
@@ -180,9 +173,7 @@ const Register = () => {
         </Grid>
       </Box>
 
-      <pre>
-        {JSON.stringify(watch(), null, 2)}
-      </pre>
+      <pre>{JSON.stringify(watch(), null, 2)}</pre>
 
       <Button
         variant="contained"

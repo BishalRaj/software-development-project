@@ -21,8 +21,7 @@ import { useForm } from "react-hook-form";
 import AuthLayout from "../layout/authLayout";
 import { color, image } from "../static";
 import { MdVisibility, MdVisibilityOff } from "react-icons/md";
-import GoogleLogin from "react-google-login";
-
+import GoogleLoginComponent from "../components/google/login";
 const Login = () => {
   const formWidth = {
     width: "50%",
@@ -43,14 +42,6 @@ const Login = () => {
     event.preventDefault();
   };
 
-  const handleGoogleLogin = (googleData) => {
-    console.log(googleData);
-  };
-
-  const handleGoogleLoginFailure = (googleFailureData) => {
-    console.log(googleFailureData);
-  };
-
   const formComponent = (
     <Stack
       spacing={2}
@@ -62,12 +53,7 @@ const Login = () => {
         Sign in to CovVac
       </Typography>
 
-      <GoogleLogin
-        clientId="599900087974-l4kfagg1uci41noaa50vhs8h1mtg7884.apps.googleusercontent.com"
-        // buttonText="Login with your google id"
-        onSuccess={handleGoogleLogin}
-        onFailure={handleGoogleLoginFailure}
-      />
+      <GoogleLoginComponent />
 
       <Divider flexItem className="py-1" sx={{ color: "#808080" }}>
         OR
