@@ -14,7 +14,6 @@ import {
   IconButton,
   InputAdornment,
   FilledInput,
-
 } from "@mui/material";
 import { Box } from "@mui/system";
 import React, { useState } from "react";
@@ -22,8 +21,8 @@ import { useForm } from "react-hook-form";
 import AuthLayout from "../layout/authLayout";
 import { color, image } from "../static";
 import { MdVisibility, MdVisibilityOff } from "react-icons/md";
-import GoogleLogin from 'react-google-login';
-
+import GoogleLoginComponent from "../components/google/login";
+import { loginApi } from "../api";
 const Login = () => {
   const formWidth = {
     width: "50%",
@@ -32,8 +31,12 @@ const Login = () => {
     },
   };
   const { register, handleSubmit } = useForm();
-  const handleLogin = (data) => {
-    alert(`email: ${data.email}  pwd: ${data.password} `);
+  const handleLogin = async (data) => {
+    // alert(`email: ${data.email}  pwd: ${data.password} `);
+    let response = await loginApi(data);
+    console.log("====================================");
+    console.log(response);
+    console.log("====================================");
   };
 
   const [showPassword, setShowPassword] = useState(false);
@@ -43,14 +46,6 @@ const Login = () => {
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
-
-  const handleGoogleLogin = (googleData) => {
-    console.log(googleData)
-  };
-
-  const handleGoogleLoginFailure = (googleFailureData) => {
-    console.log(googleFailureData)
-  }
 
   const formComponent = (
     <Stack
@@ -62,15 +57,9 @@ const Login = () => {
       <Typography variant="h5" component="div" sx={{ fontWeight: 700 }}>
         Sign in to CovVac
       </Typography>
-   
 
-      <GoogleLogin
-        clientId="599900087974-l4kfagg1uci41noaa50vhs8h1mtg7884.apps.googleusercontent.com"
-        onSuccess={handleGoogleLogin}
-        onFailure={handleGoogleLoginFailure}
-      />
+      <GoogleLoginComponent />
 
-    
       <Divider flexItem className="py-1" sx={{ color: "#808080" }}>
         OR
       </Divider>

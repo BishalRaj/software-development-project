@@ -1,23 +1,19 @@
 import {
-  FormControl,
-  InputLabel,
-  Link,
-  Grid,
-  Typography,
-  TextField,
-  Stack,
   Button,
-  IconButton,
-  InputAdornment,
-  FilledInput,
+  Divider,
+  Grid,
+  Link,
+  Stack,
+  TextField,
+  Typography,
 } from "@mui/material";
 import { Box } from "@mui/system";
-import React, { useState } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
+import GoogleLoginComponent from "../components/google/login";
 import AuthLayout from "../layout/authLayout";
 import { color, image } from "../static";
-import { MdVisibility, MdVisibilityOff } from "react-icons/md";
-
+import { registerApi } from "../api";
 
 const Register = () => {
   const formWidth = {
@@ -29,40 +25,37 @@ const Register = () => {
   const {
     watch,
     register,
-    getValues,
-    formState: { errors } } = useForm({ mode: "all" });
+    formState: { errors },
+    handleSubmit,
+  } = useForm({ mode: "all" });
 
-  const handleRegister = () => {
-    console.log(getValues())
-  }
-
-  const [showPassword, setShowPassword] = useState(false);
-  const handleClickShowPassword = () => {
-    setShowPassword(!showPassword);
-  };
-  const handleMouseDownPassword = (event) => {
-    event.preventDefault();
+  const handleRegister = (data) => {
+    registerApi(data);
   };
 
   const errorStyles = {
-    color: 'red',
-    fontStyle: 'italic',
-    fontSize: '12px'
-  }
+    color: "red",
+    fontStyle: "italic",
+    fontSize: "12px",
+  };
   const formComponent = (
     <Stack
       spacing={2}
       sx={formWidth}
       component="form"
+      onSubmit={handleSubmit(handleRegister)}
     >
+      <GoogleLoginComponent />
+
+      <Divider flexItem className="py-1" sx={{ color: "#808080" }}>
+        OR
+      </Divider>
+
       <Typography variant="h5" component="div" sx={{ fontWeight: 700 }}>
-        Sign up to Covac
+        Sign up to CoVac
       </Typography>
 
-
-      <span style={errorStyles}>
-        {errors.fname && errors.fname.message}
-      </span>
+      <span style={errorStyles}>{errors.fname && errors.fname.message}</span>
 
       <TextField
         className="filled-basic"
@@ -74,17 +67,14 @@ const Register = () => {
         {...register("fname", {
           required: {
             value: true,
-            message: 'Please enter a name'
+            message: "Please enter a name",
           },
           pattern: {
             value: /([A-Z][a-zA-Z]*)/,
-            message: 'Please enter a valid name'
-          }
-
+            message: "Please enter a valid name",
+          },
         })}
       />
-
-
 
       <TextField
         className="filled-basic"
@@ -93,7 +83,6 @@ const Register = () => {
         type="name"
         sx={{ width: "100%" }}
         {...register("lname", { required: true })}
-
       />
 
       <TextField
@@ -114,57 +103,26 @@ const Register = () => {
         {...register("phonenumber", { required: true })}
       />
 
-      <FormControl sx={{ width: "100%" }} variant="filled">
-        <InputLabel htmlFor="filled-adornment-password">Password</InputLabel>
-        <FilledInput
-          className="filled-adornment-password"
-          type={showPassword ? "text" : "password"}
-          {...register("password", { required: true })}
-          endAdornment={
-            <InputAdornment position="end">
-              <IconButton
-                aria-label="toggle password visibility"
-                onClick={handleClickShowPassword}
-                onMouseDown={handleMouseDownPassword}
-                edge="end"
-              >
-                {showPassword ? <MdVisibility /> : <MdVisibilityOff />}
-              </IconButton>
+      <TextField
+        className="filled-basic"
+        label="Password"
+        variant="filled"
+        type="password"
+        sx={{ width: "100%" }}
+        {...register("password", { required: true })}
+      />
 
-            </InputAdornment>
-          }
-          label="Password"
-        />
-      </FormControl>
-
-
-      <FormControl sx={{ width: "100%" }} variant="filled">
-        <InputLabel htmlFor="filled-adornment-password">
-          Confirm Password
-        </InputLabel>
-        <FilledInput
-          className="filled-adornment-password"
-          type={showPassword ? "text" : "password"}
-          {...register("cpassword", { required: true })}
-          endAdornment={
-            <InputAdornment position="end">
-              <IconButton
-                aria-label="toggle password visibility"
-                onClick={handleClickShowPassword}
-                onMouseDown={handleMouseDownPassword}
-                edge="end"
-              >
-                {showPassword ? <MdVisibility /> : <MdVisibilityOff />}
-              </IconButton>
-            </InputAdornment>
-          }
-          label="Cpassword"
-        />
-      </FormControl>
+      <TextField
+        className="filled-basic"
+        label="Confirm Password"
+        variant="filled"
+        type="password"
+        sx={{ width: "100%" }}
+        {...register("cpassword", { required: true })}
+      />
 
       <Box container>
         <Grid container>
-
           <Grid>
             <Typography
               variant="caption"
@@ -184,10 +142,7 @@ const Register = () => {
         </Grid>
       </Box>
 
-      <pre>
-        {JSON.stringify(watch(), null, 2)}
-
-      </pre>
+      <pre>{JSON.stringify(watch(), null, 2)}</pre>
 
       <Button
         variant="contained"
