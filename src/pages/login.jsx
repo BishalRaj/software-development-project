@@ -21,10 +21,10 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import AuthLayout from "../layout/authLayout";
 import { FcGoogle } from "react-icons/fc";
-import { CgFacebook } from "react-icons/cg";
-import { BsGithub } from "react-icons/bs";
 import { color, image } from "../static";
 import { MdVisibility, MdVisibilityOff } from "react-icons/md";
+import GoogleLogin from 'react-google-login';
+
 const Login = () => {
   const formWidth = {
     width: "50%",
@@ -44,6 +44,15 @@ const Login = () => {
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
+
+  const handleGoogleLogin = (googleData) => {
+    console.log(googleData)
+  };
+
+  const handleGoogleLoginFailure= (googleFailureData)=>{
+    console.log(googleFailureData)
+  }
+
   const formComponent = (
     <Stack
       spacing={2}
@@ -57,45 +66,29 @@ const Login = () => {
       <Typography variant="body2" component="div" className="mb-3 mt-2">
         Enter your details below.
       </Typography>
-      <Box container>
+
+ <GoogleLogin
+              clientId="599900087974-l4kfagg1uci41noaa50vhs8h1mtg7884.apps.googleusercontent.com"
+              buttonText="Login with your google id"
+              onSuccess={handleGoogleLogin}
+              onFailure={handleGoogleLoginFailure}
+            />
+
+      {/* <Box container>
         <Grid container>
-          <Grid xs={4} md={4} lg={4} className=" d-flex justify-content-start">
+          <Grid xs={12} md={12} lg={12} className=" d-flex justify-content-start">
+           
             <Button
               variant="filled"
-              className="py-2"
-              sx={{ borderColor: "#D5DADF", width: "95%" }}
+              className="col-lg-12"
+              sx={{ borderColor: "#848484", width: "100%" }}
             >
-              <FcGoogle size={30} />
+              <FcGoogle size={50} />
             </Button>
           </Grid>
-          <Grid xs={4} md={4} lg={4} className=" d-flex justify-content-center">
-            <Button
-              variant="filled"
-              className="py-2"
-              sx={{
-                borderColor: "#D5DADF",
-                width: "95%",
-                color: "#2D88FF",
-              }}
-            >
-              <CgFacebook size={30} />
-            </Button>
-          </Grid>
-          <Grid xs={4} md={4} lg={4} className=" d-flex justify-content-end">
-            <Button
-              variant="filled"
-              className="py-2"
-              sx={{
-                borderColor: "#D5DADF",
-                width: "95%",
-                color: "#161B22",
-              }}
-            >
-              <BsGithub size={30} />
-            </Button>
-          </Grid>
+
         </Grid>
-      </Box>
+      </Box> */}
       <Divider flexItem className="py-1" sx={{ color: "#808080" }}>
         OR
       </Divider>

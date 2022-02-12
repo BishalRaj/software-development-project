@@ -63,12 +63,6 @@ const Register = () => {
         {...register("email", { required: true })}
       />
 
-
-      
-
-
-      
-
       <FormControl sx={{ width: "100%" }} variant="filled">
         <InputLabel htmlFor="filled-adornment-password">Password</InputLabel>
         <FilledInput
