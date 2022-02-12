@@ -14,7 +14,6 @@ import {
   IconButton,
   InputAdornment,
   FilledInput,
-
 } from "@mui/material";
 import { Box } from "@mui/system";
 import React, { useState } from "react";
@@ -23,7 +22,7 @@ import AuthLayout from "../layout/authLayout";
 import { FcGoogle } from "react-icons/fc";
 import { color, image } from "../static";
 import { MdVisibility, MdVisibilityOff } from "react-icons/md";
-import GoogleLogin from 'react-google-login';
+import GoogleLogin from "react-google-login";
 
 const Login = () => {
   const formWidth = {
@@ -46,12 +45,12 @@ const Login = () => {
   };
 
   const handleGoogleLogin = (googleData) => {
-    console.log(googleData)
+    console.log(googleData);
   };
 
-  const handleGoogleLoginFailure= (googleFailureData)=>{
-    console.log(googleFailureData)
-  }
+  const handleGoogleLoginFailure = (googleFailureData) => {
+    console.log(googleFailureData);
+  };
 
   const formComponent = (
     <Stack
@@ -67,12 +66,12 @@ const Login = () => {
         Enter your details below.
       </Typography>
 
- <GoogleLogin
-              clientId="599900087974-l4kfagg1uci41noaa50vhs8h1mtg7884.apps.googleusercontent.com"
-              buttonText="Login with your google id"
-              onSuccess={handleGoogleLogin}
-              onFailure={handleGoogleLoginFailure}
-            />
+      <GoogleLogin
+        clientId="599900087974-l4kfagg1uci41noaa50vhs8h1mtg7884.apps.googleusercontent.com"
+        // buttonText="Login with your google id"
+        onSuccess={handleGoogleLogin}
+        onFailure={handleGoogleLoginFailure}
+      />
 
       {/* <Box container>
         <Grid container>
