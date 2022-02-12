@@ -29,8 +29,12 @@ const Register = () => {
   const {
     watch,
     register,
+    getValues,
     formState: { errors } } = useForm({ mode: "all" });
 
+  const handleRegister = () => {
+    console.log(getValues())
+  }
 
   const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => {
@@ -52,7 +56,7 @@ const Register = () => {
       component="form"
     >
       <Typography variant="h5" component="div" sx={{ fontWeight: 700 }}>
-        Sign up to CovVac
+        Sign up to Covac
       </Typography>
 
 
@@ -182,13 +186,15 @@ const Register = () => {
 
       <pre>
         {JSON.stringify(watch(), null, 2)}
+
       </pre>
 
       <Button
         variant="contained"
         sx={{ textTransform: "none", backgroundColor: color.default }}
         className="py-2"
-        type="submit"
+        type="button"
+        onClick={handleRegister}
       >
         <Typography>Register</Typography>
       </Button>

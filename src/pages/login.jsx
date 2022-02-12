@@ -107,7 +107,7 @@ const Login = () => {
 
       <Box container>
         <Grid container>
-          <Grid md={6}>
+          <Grid>
             <FormGroup>
               <FormControlLabel
                 control={
@@ -120,7 +120,7 @@ const Login = () => {
               ></FormControlLabel>
             </FormGroup>
           </Grid>
-          <Grid md={6}>
+          <Grid>
             <Typography
               variant="caption"
               align="right"
@@ -143,7 +143,7 @@ const Login = () => {
         variant="contained"
         sx={{ textTransform: "none", backgroundColor: color.default }}
         className="py-2"
-        type="submit"
+        type="button"
       >
         <Typography>Login</Typography>
       </Button>
