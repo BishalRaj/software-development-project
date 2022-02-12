@@ -20,7 +20,6 @@ import { Box } from "@mui/system";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import AuthLayout from "../layout/authLayout";
-import { FcGoogle } from "react-icons/fc";
 import { color, image } from "../static";
 import { MdVisibility, MdVisibilityOff } from "react-icons/md";
 import GoogleLogin from 'react-google-login';
@@ -49,7 +48,7 @@ const Login = () => {
     console.log(googleData)
   };
 
-  const handleGoogleLoginFailure= (googleFailureData)=>{
+  const handleGoogleLoginFailure = (googleFailureData) => {
     console.log(googleFailureData)
   }
 
@@ -61,34 +60,17 @@ const Login = () => {
       onSubmit={handleSubmit(handleLogin)}
     >
       <Typography variant="h5" component="div" sx={{ fontWeight: 700 }}>
-        Sign in to Ourportfolio
+        Sign in to CovVac
       </Typography>
-      <Typography variant="body2" component="div" className="mb-3 mt-2">
-        Enter your details below.
-      </Typography>
+   
 
- <GoogleLogin
-              clientId="599900087974-l4kfagg1uci41noaa50vhs8h1mtg7884.apps.googleusercontent.com"
-              buttonText="Login with your google id"
-              onSuccess={handleGoogleLogin}
-              onFailure={handleGoogleLoginFailure}
-            />
+      <GoogleLogin
+        clientId="599900087974-l4kfagg1uci41noaa50vhs8h1mtg7884.apps.googleusercontent.com"
+        onSuccess={handleGoogleLogin}
+        onFailure={handleGoogleLoginFailure}
+      />
 
-      {/* <Box container>
-        <Grid container>
-          <Grid xs={12} md={12} lg={12} className=" d-flex justify-content-start">
-           
-            <Button
-              variant="filled"
-              className="col-lg-12"
-              sx={{ borderColor: "#848484", width: "100%" }}
-            >
-              <FcGoogle size={50} />
-            </Button>
-          </Grid>
-
-        </Grid>
-      </Box> */}
+    
       <Divider flexItem className="py-1" sx={{ color: "#808080" }}>
         OR
       </Divider>
