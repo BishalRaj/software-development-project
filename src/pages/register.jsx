@@ -1,7 +1,13 @@
 import {
   Button,
   Divider,
+  FilledInput,
+  FormControl,
   Grid,
+  Icon,
+  IconButton,
+  InputAdornment,
+  InputLabel,
   Link,
   Stack,
   TextField,
@@ -14,6 +20,11 @@ import GoogleLoginComponent from "../components/google/login";
 import AuthLayout from "../layout/authLayout";
 import { color, image } from "../static";
 import { registerApi } from "../api";
+import MuiPhoneNumber from 'material-ui-phone-number';
+import { useState } from "react";
+import { MdVisibility, MdVisibilityOff } from "react-icons/md";
+
+
 
 const Register = () => {
   const formWidth = {
@@ -29,11 +40,20 @@ const Register = () => {
   } = useForm({ mode: "all" });
 
   const handleRegister = async () => {
-    const data= getValues()
+    const data = getValues()
     const response = await registerApi(data);
     response && console.log(response);
-    
-    
+
+
+  };
+
+  const [showPassword, setShowPassword] = useState(false);
+  const handleClickShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
   };
 
   const errorStyles = {
@@ -58,7 +78,6 @@ const Register = () => {
       </Typography>
 
       <span style={errorStyles}>{errors.fname && errors.fname.message}</span>
-
       <TextField
         className="filled-basic"
         label="First name"
@@ -69,33 +88,55 @@ const Register = () => {
         {...register("fname", {
           required: {
             value: true,
-            message: "Please enter a name",
+            message: "Please enter your first name *",
           },
           pattern: {
             value: /([A-Z][a-zA-Z]*)/,
-            message: "Please enter a valid name",
+            message: "Please enter a valid name *",
           },
         })}
       />
 
+      <span style={errorStyles}>{errors.lname && errors.lname.message}</span>
       <TextField
         className="filled-basic"
         label="Last name"
         variant="filled"
         type="name"
         sx={{ width: "100%" }}
-        {...register("lname", { required: true })}
+        {...register("lname", {
+          required: {
+            value: true,
+            message: "Please enter your last name *",
+          },
+          pattern: {
+            value: /([A-Z][a-zA-Z]*)/,
+            message: "Please enter a valid name *",
+          },
+        })}
       />
 
+
+
+      <span style={errorStyles}>{errors.email && errors.email.message}</span>
       <TextField
         className="filled-basic"
         label="Email"
         variant="filled"
         type="email"
         sx={{ width: "100%" }}
-        {...register("email", { required: true })}
+        {...register("email", {
+          required: {
+            value: true,
+            message: "Please enter your email *"
+          },
+          pattern: {
+            value: /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/,
+            message: "Please enter a valid email"
+          }
+        })}
       />
-
+      {/* 
       <TextField
         className="filled-basic"
         label="Phone number"
@@ -103,25 +144,74 @@ const Register = () => {
         type="number"
         sx={{ width: "100%" }}
         {...register("phonenumber", { required: true })}
-      />
+      /> */}
 
-      <TextField
-        className="filled-basic"
-        label="Password"
-        variant="filled"
-        type="password"
-        sx={{ width: "100%" }}
-        {...register("password", { required: true })}
-      />
+      <FormControl sx={{ width: "100%" }} variant="filled">
+        <InputLabel htmlFor="filled-adornment-phonenumber">Phone number</InputLabel>
+        <FilledInput
+          id="filled-adornment-phonenumber"
+          type="number"
+          {...register("phonenumber", { required: true })}
+          endAdornment={
+            <InputAdornment position="end">
+              <IconButton
+                edge="start"
+                style={{fontSize:'14px'}}> +44 </IconButton>
+            </InputAdornment>
+          }
+          label="Phone number"
+        />
+      </FormControl>
 
-      <TextField
-        className="filled-basic"
-        label="Confirm Password"
-        variant="filled"
-        type="password"
-        sx={{ width: "100%" }}
-        {...register("cpassword", { required: true })}
-      />
+      <FormControl sx={{ width: "100%" }} variant="filled">
+        <InputLabel htmlFor="filled-adornment-password">Password</InputLabel>
+        <FilledInput
+          id="filled-adornment-password"
+          type={showPassword ? "text" : "password"}
+          {...register("password", { required: true })}
+          endAdornment={
+            <InputAdornment position="end">
+              <IconButton
+                aria-label="toggle password visibility"
+                onClick={handleClickShowPassword}
+                onMouseDown={handleMouseDownPassword}
+                edge="end"
+              >
+                {showPassword ? <MdVisibility /> : <MdVisibilityOff />}
+              </IconButton>
+            </InputAdornment>
+          }
+          label="Password"
+        />
+      </FormControl>
+
+      <FormControl sx={{ width: "100%" }} variant="filled">
+        <InputLabel htmlFor="filled-adornment-password">Confirm password</InputLabel>
+        <FilledInput
+          id="filled-adornment-password"
+          type={showPassword ? "text" : "Confirm password"}
+          {...register("cpassword", { required: true })}
+          endAdornment={
+            <InputAdornment position="end">
+              <IconButton
+                aria-label="toggle password visibility"
+                onClick={handleClickShowPassword}
+                onMouseDown={handleMouseDownPassword}
+                edge="end"
+              >
+                {showPassword ? <MdVisibility /> : <MdVisibilityOff />}
+              </IconButton>
+            </InputAdornment>
+          }
+          label="Confirm password"
+        />
+      </FormControl>
+
+
+
+
+
+
 
       <Box container>
         <Grid container>
