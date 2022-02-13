@@ -29,8 +29,9 @@ const Register = () => {
     handleSubmit,
   } = useForm({ mode: "all" });
 
-  const handleRegister = (data) => {
-    registerApi(data);
+  const handleRegister = async (data) => {
+    const response = await registerApi(data);
+    response && console.log(response);
   };
 
   const errorStyles = {
