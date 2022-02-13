@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import LoginPage from "./pages/login";
 import RegisterPage from "./pages/register";
 import HomePage from "./pages/homepage";
+
 function App() {
   return (
     <BrowserRouter>
@@ -13,7 +14,7 @@ function App() {
             exact
             path="/register"
             title={"Register Page"}
-            element={<RegisterPage />}
+            element={(props) => <RegisterPage {...props} />}
           />
           <Route
             exact

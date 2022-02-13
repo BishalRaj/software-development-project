@@ -6,6 +6,8 @@ import {
   InfoWindow,
 } from "@react-google-maps/api";
 
+import Navbar from "../bar/homepagenavbar";
+
 const Maps = () => {
   const [markers, setMarkers] = useState([]);
   const [selected, setSelected] = useState([]);
@@ -40,7 +42,7 @@ const Maps = () => {
   };
 
   const { isLoaded, loadError } = useLoadScript({
-    googleMapsApiKey: "AIzaSyB00OdR-qnJVFJCJaWT9P__O30_V6eGb8g",
+    googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY_UNPAID,
     libraries,
   });
 
@@ -49,6 +51,8 @@ const Maps = () => {
 
   return (
     <div>
+      {/* <Search /> */}
+      {/* <Navbar /> */}
       <GoogleMap
         mapContainerStyle={mapContainerStyle}
         zoom={16}

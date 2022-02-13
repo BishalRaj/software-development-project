@@ -1,11 +1,11 @@
 import React from "react";
 // import {google} from "../components";
 import GoogleMapComponent from "../components/google/maps";
+import Navbar from "../components/bar/homepagenavbar";
 const Homepage = () => {
   return (
     <div>
-      <h1>Navbar here</h1>
-      {/* {google.map} */}
+      <Navbar />
       <GoogleMapComponent />
     </div>
   );

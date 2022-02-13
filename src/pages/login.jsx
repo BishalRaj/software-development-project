@@ -32,11 +32,8 @@ const Login = () => {
   };
   const { register, handleSubmit } = useForm();
   const handleLogin = async (data) => {
-    // alert(`email: ${data.email}  pwd: ${data.password} `);
     let response = await loginApi(data);
-    console.log("====================================");
-    console.log(response);
-    console.log("====================================");
+    response && console.log(response);
   };
 
   const [showPassword, setShowPassword] = useState(false);

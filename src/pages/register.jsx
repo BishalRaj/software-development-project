@@ -149,7 +149,7 @@ const Register = () => {
         variant="contained"
         sx={{ textTransform: "none", backgroundColor: color.default }}
         className="py-2"
-        type="button"
+        type="submit"
         onClick={handleRegister}
       >
         <Typography>Register</Typography>
