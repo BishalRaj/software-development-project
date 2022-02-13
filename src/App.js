@@ -14,7 +14,7 @@ function App() {
             exact
             path="/register"
             title={"Register Page"}
-            element={(props) => <RegisterPage {...props} />}
+            element={<RegisterPage />}
           />
           <Route
             exact
