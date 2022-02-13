@@ -15,14 +15,16 @@ import {
 } from "@mui/material";
 import { Box } from "@mui/system";
 import React from "react";
-import { get, useForm } from "react-hook-form";
+import { get, useFieldArray, useForm } from "react-hook-form";
 import GoogleLoginComponent from "../components/google/login";
 import AuthLayout from "../layout/authLayout";
 import { color, image } from "../static";
 import { registerApi } from "../api";
-import MuiPhoneNumber from 'material-ui-phone-number';
 import { useState } from "react";
 import { MdVisibility, MdVisibilityOff } from "react-icons/md";
+import Alert from '@mui/material/Alert';
+import Snackbar from '@mui/material/Snackbar';
+import { useNavigate } from 'react-router-dom'
 
 
 
@@ -33,16 +35,54 @@ const Register = () => {
       width: "80%",
     },
   };
+
+
+  const [open, setOpen] = React.useState(false);
+
+  let navigate = useNavigate();
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+  };
+
+
+  const [responseSuccess, setResponseSuccess] = useState();
+  const [responseMessage, setResponseMessage] = useState();
+
+
   const {
     register,
     getValues,
     formState: { errors, isValid },
   } = useForm({ mode: "all" });
 
+
   const handleRegister = async () => {
     const data = getValues()
-    const response = await registerApi(data);
-    response && console.log(response);
+    await registerApi(data).then((responseData) => {
+      setResponseSuccess(responseData.data.success)
+      setResponseMessage(responseData.data.msg)
+      if (responseSuccess) {
+        setOpen(true)
+        navigate('login', {replace: true})
+
+      }
+      else {
+
+        setOpen(true)
+      }
+    }).catch((error) => {
+
+      setResponseSuccess(false)
+      setResponseMessage('Network problem, please try again later')
+      setOpen(true)
+    });
+
+
 
 
   };
@@ -76,6 +116,23 @@ const Register = () => {
       <Typography variant="h5" component="div" sx={{ fontWeight: 700 }}>
         Sign up to CoVac
       </Typography>
+
+      {/* Response error or success */}
+
+      {responseSuccess ?
+        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+          <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+            {responseMessage}
+          </Alert>
+
+        </Snackbar>
+        :
+        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+          <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
+            {responseMessage}
+          </Alert>
+        </Snackbar>
+      }
 
       <span style={errorStyles}>{errors.fname && errors.fname.message}</span>
       <TextField
@@ -114,6 +171,7 @@ const Register = () => {
             message: "Please enter a valid name *",
           },
         })}
+
       />
 
 
@@ -146,29 +204,48 @@ const Register = () => {
         {...register("phonenumber", { required: true })}
       /> */}
 
-      <FormControl sx={{ width: "100%" }} variant="filled">
-        <InputLabel htmlFor="filled-adornment-phonenumber">Phone number</InputLabel>
-        <FilledInput
-          id="filled-adornment-phonenumber"
-          type="number"
-          {...register("phonenumber", { required: true })}
-          endAdornment={
-            <InputAdornment position="end">
-              <IconButton
-                edge="start"
-                style={{fontSize:'14px'}}> +44 </IconButton>
-            </InputAdornment>
-          }
-          label="Phone number"
-        />
-      </FormControl>
+      <span style={errorStyles}>{errors.phonenumber && errors.phonenumber.message}</span>
+      <TextField
+        className="filled-basic"
+        label="Phone number"
+        variant="filled"
+        type="number"
 
+        sx={{ width: "100%" }}
+        {...register("phonenumber", {
+          required: {
+            value: true,
+            message: "Please enter your phone number *",
+          },
+          pattern: {
+            value: /[0-9]{10}/,
+            message: "Please enter a valid phone number *",
+          },
+        })}
+
+        InputProps={{
+          startAdornment: <InputAdornment position="start">+44</InputAdornment>
+
+        }}
+      />
+
+      <span style={errorStyles}> {errors.password && errors.password.message} </span>
       <FormControl sx={{ width: "100%" }} variant="filled">
         <InputLabel htmlFor="filled-adornment-password">Password</InputLabel>
         <FilledInput
-          id="filled-adornment-password"
+          className="filled-adornment-password"
           type={showPassword ? "text" : "password"}
-          {...register("password", { required: true })}
+          {...register("password", {
+            required: {
+              value: true,
+              message: "Please enter password *"
+            },
+            pattern: {
+              value: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{6,}$/,
+              message: 'Password must be at least 6 charcater, one number and one uppercase * '
+            }
+          }
+          )}
           endAdornment={
             <InputAdornment position="end">
               <IconButton
@@ -185,12 +262,20 @@ const Register = () => {
         />
       </FormControl>
 
+      <span style={errorStyles}> {errors.cpassword && errors.cpassword.message} </span>
+
       <FormControl sx={{ width: "100%" }} variant="filled">
         <InputLabel htmlFor="filled-adornment-password">Confirm password</InputLabel>
         <FilledInput
-          id="filled-adornment-password"
-          type={showPassword ? "text" : "Confirm password"}
-          {...register("cpassword", { required: true })}
+          className="filled-adornment-password"
+          type={showPassword ? "text" : "password"}
+          {...register("cpassword", {
+            validate: (value) => value === getValues().password || "Password didnot match, re-enter same password *",
+            required: {
+              value: true,
+              message: 'Please enter password'
+            }
+          })}
           endAdornment={
             <InputAdornment position="end">
               <IconButton
