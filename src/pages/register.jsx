@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import { Box } from "@mui/system";
 import React from "react";
-import { useForm } from "react-hook-form";
+import { get, useForm } from "react-hook-form";
 import GoogleLoginComponent from "../components/google/login";
 import AuthLayout from "../layout/authLayout";
 import { color, image } from "../static";
@@ -23,15 +23,17 @@ const Register = () => {
     },
   };
   const {
-    watch,
     register,
-    formState: { errors },
-    handleSubmit,
+    getValues,
+    formState: { errors, isValid },
   } = useForm({ mode: "all" });
 
-  const handleRegister = async (data) => {
+  const handleRegister = async () => {
+    const data= getValues()
     const response = await registerApi(data);
     response && console.log(response);
+    
+    
   };
 
   const errorStyles = {
@@ -44,7 +46,6 @@ const Register = () => {
       spacing={2}
       sx={formWidth}
       component="form"
-      onSubmit={handleSubmit(handleRegister)}
     >
       <GoogleLoginComponent />
 
@@ -143,13 +144,13 @@ const Register = () => {
         </Grid>
       </Box>
 
-      <pre>{JSON.stringify(watch(), null, 2)}</pre>
 
       <Button
         variant="contained"
         sx={{ textTransform: "none", backgroundColor: color.default }}
         className="py-2"
         type="button"
+        disabled={!isValid}
         onClick={handleRegister}
       >
         <Typography>Register</Typography>
