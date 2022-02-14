@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import LoginPage from "./pages/login";
 import RegisterPage from "./pages/register";
 import HomePage from "./pages/homepage";
+import ProfilePage from "./pages/profile";
 
 function App() {
   return (
@@ -21,6 +22,12 @@ function App() {
             path="/login"
             title={"Login Page"}
             element={<LoginPage />}
+          />
+          <Route
+            exact
+            path="/profile"
+            title={"Profile Page"}
+            element={<ProfilePage />}
           />
         </Routes>
       </Fragment>
