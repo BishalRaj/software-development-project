@@ -56,7 +56,6 @@ const Register = () => {
     const data = getValues();
     await registerApi(data)
       .then((responseData) => {
-        console.log({ responseData });
         let { success, msg } = responseData?.data;
 
         setResponseSuccess(success);

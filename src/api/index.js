@@ -11,3 +11,9 @@ export const registerApi = (options) => {
         ...options,
     });
 };
+
+export const googleLoginApi = (options) => {
+    return Axios.post("/user/googlelogin", {
+        ...options
+    })
+}
