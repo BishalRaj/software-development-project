@@ -60,16 +60,13 @@ const Login = () => {
     await loginApi(data)
       .then((responseData) => {
         let { success, msg } = responseData?.data;
-        console.log("====================================");
-        console.log(responseData);
-        console.log("====================================");
         setResponseSuccess(success);
         setResponseMessage(msg);
         setOpen(true);
 
         success &&
           setTimeout(() => {
-            navigate("/login");
+            navigate("/profile");
           }, 2000);
       })
       .catch((error) => {
