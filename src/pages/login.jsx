@@ -1,28 +1,31 @@
 import {
-  FormControl,
-  InputLabel,
-  Link,
-  Grid,
-  Typography,
-  TextField,
-  Stack,
-  FormGroup,
-  FormControlLabel,
-  Checkbox,
+  Alert,
   Button,
+  Checkbox,
   Divider,
+  FilledInput,
+  FormControl,
+  FormControlLabel,
+  FormGroup,
+  Grid,
   IconButton,
   InputAdornment,
-  FilledInput,
+  InputLabel,
+  Link,
+  Snackbar,
+  Stack,
+  TextField,
+  Typography,
 } from "@mui/material";
 import { Box } from "@mui/system";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
+import { MdVisibility, MdVisibilityOff } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
+import { loginApi } from "../api";
+import GoogleLoginComponent from "../components/google/login";
 import AuthLayout from "../layout/authLayout";
 import { color, image } from "../static";
-import { MdVisibility, MdVisibilityOff } from "react-icons/md";
-import GoogleLoginComponent from "../components/google/login";
-import { loginApi } from "../api";
 const Login = () => {
   const formWidth = {
     width: "50%",
@@ -30,11 +33,12 @@ const Login = () => {
       width: "80%",
     },
   };
-  const { register, handleSubmit } = useForm();
-  const handleLogin = async (data) => {
-    let response = await loginApi(data);
-    response && console.log(response);
-  };
+  const {
+    register,
+    getValues,
+    formState: { errors, isValid },
+  } = useForm({ mode: "all" });
+  const [open, setOpen] = React.useState(false);
 
   const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => {
@@ -43,14 +47,47 @@ const Login = () => {
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
+  const navigate = useNavigate();
+  const errorStyles = {
+    color: "red",
+    fontStyle: "italic",
+    fontSize: "12px",
+  };
+  const [responseSuccess, setResponseSuccess] = useState();
+  const [responseMessage, setResponseMessage] = useState();
+  const handleLogin = async () => {
+    const data = getValues();
+    await loginApi(data)
+      .then((responseData) => {
+        let { success, msg } = responseData?.data;
+        console.log("====================================");
+        console.log(responseData);
+        console.log("====================================");
+        setResponseSuccess(success);
+        setResponseMessage(msg);
+        setOpen(true);
+
+        success &&
+          setTimeout(() => {
+            navigate("/login");
+          }, 2000);
+      })
+      .catch((error) => {
+        setResponseSuccess(false);
+        setResponseMessage("Network problem, please try again later");
+        setOpen(true);
+      });
+  };
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
+  };
 
   const formComponent = (
-    <Stack
-      spacing={2}
-      sx={formWidth}
-      component="form"
-      onSubmit={handleSubmit(handleLogin)}
-    >
+    <Stack spacing={2} sx={formWidth} component="form">
       <Typography variant="h5" component="div" sx={{ fontWeight: 700 }}>
         Sign in to CovVac
       </Typography>
@@ -60,21 +97,36 @@ const Login = () => {
       <Divider flexItem className="py-1" sx={{ color: "#808080" }}>
         OR
       </Divider>
+      <span style={errorStyles}>{errors.email && errors.email.message}</span>
+
       <TextField
         id="filled-basic"
         label="Email"
         variant="filled"
         type="email"
         sx={{ width: "100%" }}
-        {...register("email", { required: true })}
+        {...register("email", {
+          required: {
+            value: true,
+            message: "Please enter your email",
+          },
+        })}
       />
+      <span style={errorStyles}>
+        {errors.password && errors.password.message}
+      </span>
 
       <FormControl sx={{ width: "100%" }} variant="filled">
         <InputLabel htmlFor="filled-adornment-password">Password</InputLabel>
         <FilledInput
           id="filled-adornment-password"
           type={showPassword ? "text" : "password"}
-          {...register("password", { required: true })}
+          {...register("password", {
+            required: {
+              value: true,
+              message: "Please enter your password",
+            },
+          })}
           endAdornment={
             <InputAdornment position="end">
               <IconButton
@@ -130,9 +182,29 @@ const Login = () => {
         sx={{ textTransform: "none", backgroundColor: color.default }}
         className="py-2"
         type="button"
+        disabled={!isValid}
+        onClick={handleLogin}
       >
         <Typography>Login</Typography>
       </Button>
+
+      {responseSuccess ? (
+        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+          <Alert
+            onClose={handleClose}
+            severity="success"
+            sx={{ width: "100%" }}
+          >
+            {responseMessage}
+          </Alert>
+        </Snackbar>
+      ) : (
+        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+          <Alert onClose={handleClose} severity="error" sx={{ width: "100%" }}>
+            {responseMessage}
+          </Alert>
+        </Snackbar>
+      )}
     </Stack>
   );
 

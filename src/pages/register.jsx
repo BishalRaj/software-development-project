@@ -12,19 +12,17 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import Alert from "@mui/material/Alert";
+import Snackbar from "@mui/material/Snackbar";
 import { Box } from "@mui/system";
-import React from "react";
-import { get, useFieldArray, useForm } from "react-hook-form";
+import React, { useState } from "react";
+import { useForm } from "react-hook-form";
+import { MdVisibility, MdVisibilityOff } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
+import { registerApi } from "../api";
 import GoogleLoginComponent from "../components/google/login";
 import AuthLayout from "../layout/authLayout";
 import { color, image } from "../static";
-import { registerApi } from "../api";
-import { useState } from "react";
-import { MdVisibility, MdVisibilityOff } from "react-icons/md";
-import Alert from "@mui/material/Alert";
-import Snackbar from "@mui/material/Snackbar";
-import { useNavigate } from "react-router-dom";
-
 const Register = () => {
   const formWidth = {
     width: "50%",
@@ -33,9 +31,9 @@ const Register = () => {
     },
   };
 
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
 
-  let navigate = useNavigate();
+  const navigate = useNavigate();
 
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
@@ -58,14 +56,17 @@ const Register = () => {
     const data = getValues();
     await registerApi(data)
       .then((responseData) => {
-        setResponseSuccess(responseData.data.success);
-        setResponseMessage(responseData.data.msg);
-        if (responseSuccess) {
-          setOpen(true);
-          navigate("login", { replace: true });
-        } else {
-          setOpen(true);
-        }
+        console.log({ responseData });
+        let { success, msg } = responseData?.data;
+
+        setResponseSuccess(success);
+        setResponseMessage(msg);
+        setOpen(true);
+
+        success &&
+          setTimeout(() => {
+            navigate("/login");
+          }, 2000);
       })
       .catch((error) => {
         setResponseSuccess(false);
@@ -88,6 +89,7 @@ const Register = () => {
     fontStyle: "italic",
     fontSize: "12px",
   };
+
   const formComponent = (
     <Stack spacing={2} sx={formWidth} component="form">
       <GoogleLoginComponent />
