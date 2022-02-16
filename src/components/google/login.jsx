@@ -50,7 +50,7 @@ const Login = () => {
 
   return (
     <>  <GoogleLogin
-      clientId="599900087974-l4kfagg1uci41noaa50vhs8h1mtg7884.apps.googleusercontent.com"
+      clientId="599900087974-qijnkot1nrn28e8i2n7rl3fe91dokilg.apps.googleusercontent.com"
       // buttonText="Login with your google id"
       onSuccess={handleGoogleLogin}
       onFailure={handleGoogleLoginFailure}
