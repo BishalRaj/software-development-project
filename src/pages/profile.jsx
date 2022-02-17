@@ -1,9 +1,18 @@
-import React from "react";
-import UserNavBar from "../components/bar/usernavbar"
+import React, { useState } from "react";
+import UserNavBar from "../components/bar/usernavbar";
 
 const Profile = () => {
+  const [userComponent, setuserComponent] = useState([]);
+
+  const setCurrentPage = (page) => {
+    setuserComponent(page);
+  };
+
   return (
-  <UserNavBar/>
+    <>
+      <UserNavBar currentPage={setCurrentPage} />
+      {userComponent}
+    </>
   );
 };
 
